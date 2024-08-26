@@ -26,8 +26,6 @@ I would incorporate some user authentication using something AWS Cognito, I beli
 
 I wrote some tests checking for UI components and items that should be on the page. Then testing some of the state management by mocking the context provider and making sure items are added and removed to the cart.
 
-# Timebox: 3-5 days
-
 # Assignment Overview
 
 Create a simple e-commerce web application that demonstrates your front-end capabilities, with a strong emphasis on mobile compatibility and user experience. This project will assess your ability to design, implement, test, and communicate about your solution effectively.
@@ -67,34 +65,6 @@ Please include tests for your code to demonstrate your testing practices. You sh
 ## Completing the checkout process
 
 # Deliverables
-
-Once you complete your application, please submit the following:
-
-## Source Code: Push your project to a GitHub repository.
-
-## Documentation: Include a document (README.md, Google Doc, etc.) that briefly covers the following:
-
-### Overview of Your Application: Describe what the application does and its main features.
-
-### How It Works: Explain the architecture and what happens behind the scenes (e.g., data flow, state management, interactions between components).
-
-### Approach to Problem-Solving: Discuss your thought process when tackling this project and any challenges you faced.
-
-### Mobile Compatibility Strategy: Explain how you ensured the application is mobile-friendly, including any specific tools or techniques used.
-
-### State Management Strategy: Describe your approach to managing the state of the application, particularly with respect to cart operations.
-
-### Future Extensions: Suggest how you would enhance the application for a more robust e-commerce experience (e.g., user authentication, payment processing, inventory management).
-
-### Testing Strategy: Describe how you approached testing your application, including the types of tests you wrote and why.
-
-# Follow-Up
-
-During a future interview, you may be asked to present your project and discuss potential additional features.
-
-# Questions
-
-If you have any questions or need clarification about the assignment, please feel free to reach out.
 
 ## Available Scripts
 
