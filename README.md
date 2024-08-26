@@ -1,3 +1,31 @@
+### Overview of Your Application: Describe what the application does and its main features.
+
+The application is a simple ecommerce web app. It lists items that can be added to a shopping cart and then you can 'purchase' the items that had been added to the shopping cart.
+
+### How It Works: Explain the architecture and what happens behind the scenes (e.g., data flow, state management, interactions between components).
+
+Everything is run through the state and the context. Adding an item to cart kicks off a 'ADD_TO_CART' action adding the item that was selected to an array of items. Removing an item kicks off the 'REMOVE_FROM_CART' action that finds the item to remove from the array. Then when you purchase it kicks off the 'CLEAR_CART' and 'SET_CHECKOUT' actions to reset the cart and produce the transaction ID in the Modal.
+
+### Approach to Problem-Solving: Discuss your thought process when tackling this project and any challenges you faced.
+
+The first thing I did was create all the components and get a better idea as to what components I needed as a base. I did kind of pseudocode for the buttons and how I wanted them to work. Then started to put the state management together starting to get the items to be pushed to an array, then getting those items to show in the cart. After that I worked on removing the items and making sure they are removed from the cart. Followed by the logic to checkout the cart. Then I thought about how I should design the app and I thought about some other apps I've used where the cart is in a drawer at the bottom and the drawer has the cart and the checkout flow.
+
+### Mobile Compatibility Strategy: Explain how you ensured the application is mobile-friendly, including any specific tools or techniques used.
+
+I set the app up to be fluid so that it could work with any screen size. I used percentages for width and rem for spacing and media queries where necessary. With the media queries I just set the font-size on smaller screens so that the rem would update and adjust the width percentage of the items on smaller screens.
+
+### State Management Strategy: Describe your approach to managing the state of the application, particularly with respect to cart operations.
+
+I broke it up into 4 actions, 'ADD_TO_CART', 'REMOVE_FROM_CART', 'CLEAR_CART' and 'SET_CHECKOUT'. Each action works with an array of items and adjusts that array.
+
+### Future Extensions: Suggest how you would enhance the application for a more robust e-commerce experience (e.g., user authentication, payment processing, inventory management).
+
+I would incorporate some user authentication using something AWS Cognito, I believe I would use an RDS database to manage the inventory and use something like stripe to handle the payment processing.
+
+### Testing Strategy: Describe how you approached testing your application, including the types of tests you wrote and why.
+
+I wrote some tests checking for UI components and items that should be on the page. Then testing some of the state management by mocking the context provider and making sure items are added and removed to the cart.
+
 # Timebox: 3-5 days
 
 # Assignment Overview
@@ -68,10 +96,6 @@ During a future interview, you may be asked to present your project and discuss 
 
 If you have any questions or need clarification about the assignment, please feel free to reach out.
 
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
 ## Available Scripts
 
 In the project directory, you can run:
@@ -88,29 +112,3 @@ You will also see any lint errors in the console.
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).

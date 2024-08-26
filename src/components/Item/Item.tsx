@@ -1,5 +1,7 @@
 import React from "react";
 import { useCart } from "../../state/CartContext";
+import Button from "../shared/Button";
+import * as S from "./Item.styled";
 
 interface ItemProps {
   id: number;
@@ -15,11 +17,14 @@ const Item: React.FC<ItemProps> = ({ id, name, price }) => {
   };
 
   return (
-    <div>
-      <h3>{name}</h3>
-      <p>Price: ${price.toFixed(2)}</p>
-      <button onClick={addToCart}>Add to Cart</button>
-    </div>
+    <S.Container>
+      <S.LeftItem>
+        <S.Header>{name}</S.Header>
+        <S.ItemPrice>Price: ${price.toFixed(2)}</S.ItemPrice>
+      </S.LeftItem>
+
+      <Button onClick={addToCart}>Add to Cart</Button>
+    </S.Container>
   );
 };
 

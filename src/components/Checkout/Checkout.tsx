@@ -1,24 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 import { useCart } from "../../state/CartContext";
+import Modal from "../Modal/Modal";
+import Button from "../shared/Button";
+import * as S from "./Checkout.styled";
 
-const Checkout: React.FC = () => {
-  const { state, dispatch } = useCart();
+interface CheckoutProps {
+  openDrawer: boolean;
+}
+
+const Checkout: React.FC<CheckoutProps> = ({ openDrawer }) => {
+  const { state, dispatch, setCheckout } = useCart();
+  const [transactionID, setTransactionID] = useState<number | null>(null);
 
   const handleCheckout = () => {
+    const randomID =
+      Math.floor(Math.random() * (999999999 - 100000000 + 1)) + 100000000;
+
     // Simulate order submission
     dispatch({ type: "CLEAR_CART" });
-    alert("Order placed successfully! Transaction ID: 12345");
+    setTransactionID(randomID);
+    setCheckout(true);
+  };
+
+  const closeModal = () => {
+    setCheckout(false);
+    setTransactionID(null);
   };
 
   return (
-    <div>
-      <h2>Checkout</h2>
-      {state.items.length === 0 ? (
-        <p>Your cart is empty</p>
-      ) : (
-        <button onClick={handleCheckout}>Submit Order</button>
+    <S.Container>
+      {state.items.length === 0
+        ? null
+        : openDrawer && <Button onClick={handleCheckout}>Submit Order</Button>}
+      {transactionID !== null && state.checkout && (
+        <Modal
+          show={state.checkout}
+          onClose={closeModal}
+          transactionID={transactionID}
+        />
       )}
-    </div>
+    </S.Container>
   );
 };
 

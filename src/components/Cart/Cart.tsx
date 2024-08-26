@@ -1,7 +1,13 @@
 import React from "react";
 import { useCart } from "../../state/CartContext";
+import Button from "../shared/Button";
+import * as S from "./Cart.styled";
 
-const Cart: React.FC = () => {
+interface CartProps {
+  openDrawer: boolean;
+}
+
+const Cart: React.FC<CartProps> = ({ openDrawer }) => {
   const { state, dispatch } = useCart();
 
   const removeFromCart = (id: number) => {
@@ -9,22 +15,29 @@ const Cart: React.FC = () => {
   };
 
   return (
-    <div>
-      <h2>Shopping Cart</h2>
-      {state.items.length === 0 ? (
-        <p>Your cart is empty</p>
-      ) : (
-        <ul>
-          {state.items.map((item) => (
-            <li key={item.id}>
-              {item.name} - {item.quantity} x ${item.price.toFixed(2)}
-              <button onClick={() => removeFromCart(item.id)}>Remove</button>
-            </li>
-          ))}
-        </ul>
+    <S.Container>
+      <S.Header>
+        Shopping Cart {openDrawer ? null : state.items.length}
+      </S.Header>
+      {state.items.length === 0 || !openDrawer ? null : (
+        <>
+          <S.List>
+            {state.items.map((item) => (
+              <S.ListItem key={item.id}>
+                {item.name} - {item.quantity} x ${item.price.toFixed(2)}
+                <Button
+                  version="secondary"
+                  onClick={() => removeFromCart(item.id)}
+                >
+                  Remove
+                </Button>
+              </S.ListItem>
+            ))}
+          </S.List>
+          <S.Total>Total: ${state.totalAmount.toFixed(2)}</S.Total>
+        </>
       )}
-      <h3>Total: ${state.totalAmount.toFixed(2)}</h3>
-    </div>
+    </S.Container>
   );
 };
 

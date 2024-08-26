@@ -1,6 +1,5 @@
 import React, { createContext, useReducer, useContext, ReactNode } from "react";
 
-// Types for cart items and actions
 interface CartItem {
   id: number;
   name: string;
@@ -11,17 +10,26 @@ interface CartItem {
 interface CartState {
   items: CartItem[];
   totalAmount: number;
+  checkout: boolean;
+}
+
+interface CartContextType {
+  state: CartState;
+  dispatch: React.Dispatch<CartAction>;
+  setCheckout: (checkout: boolean) => void;
 }
 
 type CartAction =
   | { type: "ADD_TO_CART"; item: CartItem }
   | { type: "REMOVE_FROM_CART"; id: number }
-  | { type: "CLEAR_CART" };
+  | { type: "CLEAR_CART" }
+  | { type: "SET_CHECKOUT"; checkout: boolean };
 
 // Initial cart state
 const initialCartState: CartState = {
   items: [],
   totalAmount: 0,
+  checkout: false,
 };
 
 // Reducer function to handle cart actions
@@ -67,26 +75,28 @@ function cartReducer(state: CartState, action: CartAction): CartState {
       };
     case "CLEAR_CART":
       return initialCartState;
+    case "SET_CHECKOUT":
+      return {
+        ...state,
+        checkout: action.checkout,
+      };
     default:
       return state;
   }
 }
 
 // Create Context
-const CartContext = createContext<{
-  state: CartState;
-  dispatch: React.Dispatch<CartAction>;
-}>({
-  state: initialCartState,
-  dispatch: () => null,
-});
+const CartContext = createContext<CartContextType | undefined>(undefined);
 
 // CartProvider component
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(cartReducer, initialCartState);
+  const setCheckout = (checkout: boolean) => {
+    dispatch({ type: "SET_CHECKOUT", checkout });
+  };
 
   return (
-    <CartContext.Provider value={{ state, dispatch }}>
+    <CartContext.Provider value={{ state, dispatch, setCheckout }}>
       {children}
     </CartContext.Provider>
   );
@@ -94,5 +104,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
 // Custom hook to use the CartContext
 export const useCart = () => {
-  return useContext(CartContext);
+  const context = useContext(CartContext);
+  if (!context) {
+    throw new Error("useCart must be used within a CartProvider");
+  }
+  return context;
 };
