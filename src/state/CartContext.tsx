@@ -1,4 +1,11 @@
-import React, { createContext, useReducer, useContext, ReactNode } from "react";
+import React, {
+  createContext,
+  useReducer,
+  useContext,
+  ReactNode,
+  useEffect,
+} from "react";
+import { generateGUID } from "../utils/utilities";
 
 interface CartItem {
   id: number;
@@ -11,6 +18,7 @@ interface CartState {
   items: CartItem[];
   totalAmount: number;
   checkout: boolean;
+  cartToken: string | null;
 }
 
 interface CartContextType {
@@ -23,13 +31,21 @@ type CartAction =
   | { type: "ADD_TO_CART"; item: CartItem }
   | { type: "REMOVE_FROM_CART"; id: number }
   | { type: "CLEAR_CART" }
-  | { type: "SET_CHECKOUT"; checkout: boolean };
+  | { type: "SET_CHECKOUT"; checkout: boolean }
+  | {
+      type: "LOAD_STATE";
+      items: CartItem[];
+      totalAmount: number;
+      checkout: boolean;
+      cartToken: string | null;
+    };
 
 // Initial cart state
 const initialCartState: CartState = {
   items: [],
   totalAmount: 0,
   checkout: false,
+  cartToken: null,
 };
 
 // Reducer function to handle cart actions
@@ -58,6 +74,7 @@ function cartReducer(state: CartState, action: CartAction): CartState {
         ...state,
         items: updatedItems,
         totalAmount: state.totalAmount + action.item.price,
+        cartToken: generateGUID(),
       };
     case "REMOVE_FROM_CART":
       const itemToRemove = state.items.find((item) => item.id === action.id);
@@ -80,6 +97,14 @@ function cartReducer(state: CartState, action: CartAction): CartState {
         ...state,
         checkout: action.checkout,
       };
+    case "LOAD_STATE":
+      return {
+        ...state,
+        items: action.items,
+        checkout: action.checkout,
+        totalAmount: action.totalAmount,
+        cartToken: action.cartToken,
+      };
     default:
       return state;
   }
@@ -91,9 +116,14 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 // CartProvider component
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(cartReducer, initialCartState);
+
   const setCheckout = (checkout: boolean) => {
     dispatch({ type: "SET_CHECKOUT", checkout });
   };
+
+  useEffect(() => {
+    localStorage.setItem("persistState", JSON.stringify(state));
+  }, [state]);
 
   return (
     <CartContext.Provider value={{ state, dispatch, setCheckout }}>
